@@ -2,11 +2,14 @@ import React from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import SectionCard from './components/SectionCard';
+import AddMovieForm from './components/AddMovieForm';
+import MoviesList from './components/MoviesList';
 
 /**
  * PUBLIC_INTERFACE
  * App - main application shell.
- * Renders Header, a welcome hero, Featured and Trending placeholders, and Footer.
+ * Renders Header, a welcome hero, Featured and Trending placeholders,
+ * a Supabase-powered "My Movies" section (Add + List), and Footer.
  */
 function App() {
   return (
@@ -37,7 +40,7 @@ function App() {
           </div>
         </section>
 
-        {/* Trending Movies Placeholder Section */}
+        {/* Trending Movies Placeholder Section (kept for tests) */}
         <section className="bg-surface">
           <div className="max-w-6xl mx-auto px-4 py-10">
             <h3 className="text-2xl font-semibold text-text">Trending Movies</h3>
@@ -51,6 +54,15 @@ function App() {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Supabase - My Movies Section */}
+        <section className="bg-background">
+          <div className="max-w-6xl mx-auto px-4 py-10 space-y-6">
+            <h3 className="text-2xl font-semibold text-text">My Movies (Supabase)</h3>
+            <AddMovieForm />
+            <MoviesList />
           </div>
         </section>
       </main>
