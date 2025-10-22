@@ -27,10 +27,7 @@ export default function MoviesList() {
       const { data, error: err } = await listMovies();
       if (!isMounted) return;
       if (err) {
-        // eslint-disable-next-line no-console
-        console.error('MoviesList: failed to load movies', err);
-        const friendly = err?.message || 'We could not load your movies right now. Please check your configuration.';
-        setError(friendly);
+        setError(err.message || 'Failed to load movies.');
       } else {
         setMovies(data || []);
       }
@@ -80,11 +77,8 @@ export default function MoviesList() {
     setMovies((p) => p.filter((m) => m.id !== id));
     const { error: err } = await deleteMovie(id);
     if (err) {
-      // eslint-disable-next-line no-console
-      console.error('MoviesList: failed to delete movie', err);
       setMovies(prev);
-      const friendly = err?.message || 'Could not delete the movie. Please try again.';
-      setError(friendly);
+      setError(err.message || 'Failed to delete movie.');
     }
   };
 
@@ -108,11 +102,8 @@ export default function MoviesList() {
     setEditingTitle('');
     const { error: err } = await updateMovie(id, { title: editingTitle });
     if (err) {
-      // eslint-disable-next-line no-console
-      console.error('MoviesList: failed to update movie', err);
       setMovies(prev);
-      const friendly = err?.message || 'Could not update the movie. Please try again.';
-      setError(friendly);
+      setError(err.message || 'Failed to update movie.');
     }
   };
 
