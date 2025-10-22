@@ -11,9 +11,9 @@ export default function Header() {
       <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
         <h1 className="text-xl sm:text-2xl font-bold tracking-tight">MovieAI</h1>
         <nav className="hidden sm:flex gap-4">
-          <a href="#" className="opacity-90 hover:opacity-100 transition">Home</a>
-          <a href="#" className="opacity-90 hover:opacity-100 transition">Featured</a>
-          <a href="#" className="opacity-90 hover:opacity-100 transition">Trending</a>
+          <a href="#/" className="opacity-90 hover:opacity-100 transition">Home</a>
+          <a href="#/search" className="opacity-90 hover:opacity-100 transition">Search</a>
+          <a href="#/" className="opacity-90 hover:opacity-100 transition">Trending</a>
         </nav>
       </div>
     </header>
