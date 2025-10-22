@@ -6,6 +6,7 @@ import AddMovieForm from './components/AddMovieForm';
 import MoviesList from './components/MoviesList';
 import TrendingMovies from './components/TrendingMovies';
 import SearchMovies from './pages/SearchMovies';
+import AuthCallback from './components/AuthCallback';
 import { useEffect, useState } from 'react';
 
 /**
@@ -13,11 +14,16 @@ import { useEffect, useState } from 'react';
  * App - main application shell.
  * Renders Header, a welcome hero, Featured and Trending sections with TMDB data,
  * a Supabase-powered "My Movies" section (Add + List), and Footer.
- * Includes a minimal hash-based router for Home (#/) and Search (#/search).
+ * Includes a minimal router:
+ *  - Home (#/)
+ *  - Search (#/search)
+ *  - Supabase OAuth callback (/auth/callback)
  */
 function App() {
   const parseRoute = () => {
     const hash = typeof window !== 'undefined' ? window.location.hash : '';
+    const path = typeof window !== 'undefined' ? window.location.pathname : '/';
+    if (path.startsWith('/auth/callback')) return 'auth-callback';
     if (hash.startsWith('#/search')) return 'search';
     return 'home';
   };
@@ -26,10 +32,25 @@ function App() {
 
   useEffect(() => {
     const onHashChange = () => setRoute(parseRoute());
+    const onPopState = () => setRoute(parseRoute());
     window.addEventListener('hashchange', onHashChange);
-    return () => window.removeEventListener('hashchange', onHashChange);
+    window.addEventListener('popstate', onPopState);
+    return () => {
+      window.removeEventListener('hashchange', onHashChange);
+      window.removeEventListener('popstate', onPopState);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (route === 'auth-callback') {
+    return (
+      <div className="min-h-screen flex flex-col bg-gradient-to-b from-royal-start to-royal-end">
+        <main className="flex-1">
+          <AuthCallback />
+        </main>
+      </div>
+    );
+  }
 
   const isHome = route === 'home';
 

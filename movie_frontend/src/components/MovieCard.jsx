@@ -1,5 +1,6 @@
 import React from 'react';
 import { getPosterUrl } from '../services/tmdb';
+import { useAuth } from '../context/AuthContext';
 
 /**
  * PUBLIC_INTERFACE
@@ -13,6 +14,14 @@ export default function MovieCard({ movie }) {
   const year = movie?.release_date ? new Date(movie.release_date).getFullYear() : '';
   const rating = typeof movie?.vote_average === 'number' ? movie.vote_average.toFixed(1) : 'N/A';
   const poster = getPosterUrl(movie?.poster_path, 'w342');
+  const { user } = useAuth();
+
+  const onSaveFavorite = () => {
+    // Placeholder action to indicate protected behavior.
+    // In the future, this can insert into a 'favorites' table.
+    // eslint-disable-next-line no-alert
+    alert('This would save to Favorites. (Demo)');
+  };
 
   return (
     <div className="card-surface overflow-hidden">
@@ -35,6 +44,18 @@ export default function MovieCard({ movie }) {
         <div className="mt-1 flex items-center justify-between text-sm">
           <span className="text-secondary">{year}</span>
           <span className="font-medium text-text">⭐ {rating}</span>
+        </div>
+
+        <div className="mt-4">
+          <button
+            type="button"
+            className={`btn-primary ${!user ? 'opacity-50 cursor-not-allowed' : ''}`}
+            disabled={!user}
+            onClick={user ? onSaveFavorite : undefined}
+            title={!user ? 'Sign in to save favorites' : 'Save to Favorites'}
+          >
+            Save to Favorites
+          </button>
         </div>
       </div>
     </div>
