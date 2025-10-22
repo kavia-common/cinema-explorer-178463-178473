@@ -13,31 +13,8 @@ Create a `.env.local` file in `movie_frontend/` based on `.env.example`:
 ```
 REACT_APP_SUPABASE_URL=https://YOUR-PROJECT.supabase.co
 REACT_APP_SUPABASE_KEY=YOUR_PUBLIC_ANON_KEY
-REACT_APP_SITE_URL=http://localhost:3000/
 ```
 Do not hardcode credentials in code. The app reads these via `process.env`.
-
-## Dynamic URL helper
-We use a helper to compute the site URL for redirects:
-- `src/utils/getURL.js` ensures scheme + trailing slash and uses `REACT_APP_SITE_URL` in production.
-
-## Supabase Auth
-Routes:
-- Auth callback component: `src/components/AuthCallback.jsx` (not wired to a router by default)
-- If you add React Router, map `/auth/callback` to `<AuthCallback />`.
-
-All auth methods use dynamic redirect URLs:
-- Sign up: uses `emailRedirectTo: ${getURL()}auth/callback`
-- Password reset: uses `redirectTo: ${getURL()}auth/reset-password`
-- Magic link & OAuth: use `redirectTo: ${getURL()}auth/callback`
-
-Supabase Dashboard configuration:
-1. Authentication > URL Configuration
-   - Site URL: your production domain (e.g., https://yourapp.com)
-   - Redirect URLs:
-     * http://localhost:3000/**
-     * https://yourapp.com/**
-2. (Optional) Update Email Templates to use SiteURL/RedirectTo.
 
 ## Supabase Setup
 - Create a project in Supabase and obtain your Project URL and anon public key.
@@ -54,8 +31,6 @@ Supabase Dashboard configuration:
     created_at timestamptz not null default now()
   );
   ```
-- RLS: Policies have been created to allow anonymous read/insert/update/delete for demo purposes.
-  In production, restrict these to authenticated users.
 - Realtime: Ensure Realtime is enabled for the `movies` table (under Database > Replication).
 
 ## Features
