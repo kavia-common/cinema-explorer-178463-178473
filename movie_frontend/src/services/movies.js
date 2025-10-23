@@ -7,9 +7,9 @@
  * - poster_url: text nullable
  * - created_at: timestamp with time zone default now()
  */
-import supabaseClient, { getSupabaseClient } from '../lib/supabaseClient';
+import { getSupabaseClient } from '../lib/supabaseClient';
 
-const supabase = supabaseClient || getSupabaseClient();
+const supabase = getSupabaseClient();
 
 /**
  * PUBLIC_INTERFACE
