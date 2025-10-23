@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { listMovies, deleteMovie, updateMovie } from '../services/movies';
-import supabase from '../lib/supabaseClient';
+import { getSupabaseClient } from '../lib/supabaseClient';
 
 /**
  * PUBLIC_INTERFACE
@@ -23,6 +23,8 @@ export default function MoviesList() {
 
   useEffect(() => {
     let isMounted = true;
+    const supabase = getSupabaseClient();
+
     (async () => {
       const { data, error: err } = await listMovies();
       if (!isMounted) return;
@@ -33,6 +35,13 @@ export default function MoviesList() {
       }
       setLoading(false);
     })();
+
+    if (!supabase) {
+      // If supabase isn't configured, skip realtime subscription
+      return () => {
+        isMounted = false;
+      };
+    }
 
     // Set up realtime subscription
     const channel = supabase
